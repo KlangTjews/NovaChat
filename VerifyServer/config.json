@@ -1,0 +1,18 @@
+{
+    "email": {
+      "user": "g2476693402@163.com",
+      "password": "FJWYPc9dWKsmNKA6"
+    },
+
+    "sql":{
+        "host": "127.0.0.1",
+        "port": 5432,
+        "password": 123456
+    },
+
+    "redis":{
+        "host": "127.0.0.1",
+        "port": 6381,
+        "password": 123456
+    }
+}
