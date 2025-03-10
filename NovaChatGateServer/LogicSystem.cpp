@@ -238,59 +238,59 @@ LogicSystem::LogicSystem() {
 		return true;
 	});
 
-	////用户登录逻辑
-	//RegPost("/user_login", [](std::shared_ptr<HttpConnection> connection) {
-	//	auto body_str = boost::beast::buffers_to_string(connection->_request.body().data());
-	//	std::cout << "receive body is " << body_str << std::endl;
-	//	connection->_response.set(http::field::content_type, "text/json");
+	//用户登录逻辑
+	RegPost("/user_login", [](std::shared_ptr<HttpConnection> connection) {
+		auto body_str = boost::beast::buffers_to_string(connection->_request.body().data());
+		std::cout << "receive body is " << body_str << std::endl;
+		connection->_response.set(http::field::content_type, "text/json");
 
-	//	nlohmann::json root;
-	//	nlohmann::json src_root;
-	//	try {
-	//		src_root = nlohmann::json::parse(body_str);
-	//	}
-	//	catch (const nlohmann::json::parse_error& e) {
-	//		std::cout << "Failed to parse JSON data: " << e.what() << std::endl;
-	//		root["error"] = ErrorCodes::Error_Json;
-	//		std::string jsonstr = root.dump(); // 序列化 JSON
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
+		nlohmann::json root;
+		nlohmann::json src_root;
+		try {
+			src_root = nlohmann::json::parse(body_str);
+		}
+		catch (const nlohmann::json::parse_error& e) {
+			std::cout << "Failed to parse JSON data: " << e.what() << std::endl;
+			root["error"] = ErrorCodes::Error_Json;
+			std::string jsonstr = root.dump(); // 序列化 JSON
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
 
-	//	auto email = src_root["email"];
-	//	auto pwd = src_root["passwd"];
-	//	UserInfo userInfo;
-	//	//查询数据库判断用户名和密码是否匹配
-	//	bool pwd_valid = SQLMgr::GetInstance()->CheckPwd(email, pwd, userInfo);
-	//	if (!pwd_valid) {
-	//		std::cout << " user pwd not match" << std::endl;
-	//		root["error"] = ErrorCodes::PasswdInvalid;
-	//		std::string jsonstr = root.dump();
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
+		auto email = src_root["email"].get<std::string>();
+		auto pwd = src_root["password"].get<std::string>();
+		UserInfo userInfo;
+		//查询数据库判断用户名和密码是否匹配
+		bool pwd_valid = SQLMgr::GetInstance()->CheckPwd(email, pwd, userInfo);
+		if (!pwd_valid) {
+			std::cout << " user pwd not match" << std::endl;
+			root["error"] = ErrorCodes::PasswdInvalid;
+			std::string jsonstr = root.dump();
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
 
-	//	//查询StatusServer找到合适的连接
-	//	auto reply = StatusGrpcClient::GetInstance()->GetChatServer(userInfo.uid);
-	//	if (reply.error()) {
-	//		std::cout << " grpc get chat server failed, error is " << reply.error() << std::endl;
-	//		root["error"] = ErrorCodes::RPCFailed;
-	//		std::string jsonstr = root.dump();
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
+		//查询StatusServer找到合适的连接
+		auto reply = StatusGrpcClient::GetInstance()->GetChatServer(userInfo.uid);
+		if (reply.error()) {
+			std::cout << " grpc get chat server failed, error is " << reply.error() << std::endl;
+			root["error"] = ErrorCodes::RPCFailed;
+			std::string jsonstr = root.dump();
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
 
-	//	std::cout << "succeed to load userinfo uid is " << userInfo.uid << std::endl;
-	//	root["error"] = 0;
-	//	root["email"] = email;
-	//	root["uid"] = userInfo.uid;
-	//	root["token"] = reply.token();
-	//	root["host"] = reply.host();
-	//	root["port"] = reply.port();
-	//	std::string jsonstr = root.dump();
-	//	beast::ostream(connection->_response.body()) << jsonstr;
-	//	return true;
-	//});
+		std::cout << "succeed to load userinfo uid is " << userInfo.uid << std::endl;
+		root["error"] = 0;
+		root["email"] = email;
+		root["uid"] = userInfo.uid;
+		root["token"] = reply.token();
+		root["host"] = reply.host();
+		root["port"] = reply.port();
+		std::string jsonstr = root.dump();
+		beast::ostream(connection->_response.body()) << jsonstr;
+		return true;
+	});
 }
 
 bool LogicSystem::HandleGet(std::string path, std::shared_ptr<HttpConnection> conn) {

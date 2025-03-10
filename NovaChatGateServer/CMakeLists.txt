@@ -3,7 +3,7 @@
 #
 
 # 将源代码添加到此项目的可执行文件。
-add_executable (NovaChat "GateServer.cpp" "CServer.cpp" "HttpConnection.cpp" "LogicSystem.cpp" "VerifyGrpcClient.cpp" "ConfigMgr.cpp" "RedisMgr.cpp" "SQLMgr.cpp" "PostgreSQLMgr.cpp" "AsioIOServicePool.cpp" "message.grpc.pb.cc" "message.pb.cc")
+add_executable (NovaChat "GateServer.cpp" "CServer.cpp" "HttpConnection.cpp" "LogicSystem.cpp" "VerifyGrpcClient.cpp" "ConfigMgr.cpp" "RedisMgr.cpp" "SQLMgr.cpp" "PostgreSQLMgr.cpp" "AsioIOServicePool.cpp" "StatusGrpcClient.cpp" "message.grpc.pb.cc" "message.pb.cc")
 
 include_directories(${HEAD_PATH})
 

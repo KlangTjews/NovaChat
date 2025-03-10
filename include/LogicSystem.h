@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Singleton.h"
 #include <functional>
 #include <map>
 #include <nlohmann/json.hpp>
+#include "Singleton.h"
+#include "StatusGrpcClient.h"
 #include "const.h"
 
 class HttpConnection;
