@@ -22,6 +22,10 @@ private slots:
 
     void on_sure_btn_clicked();
 
+    void on_return_btn_clicked();
+
+    void on_cancel_btn_clicked();
+
 private:
     bool checkUserValid();
     bool checkEmailValid();
@@ -34,9 +38,16 @@ private:
     void showTip(QString str, bool b_ok);
     void initHttpHandlers();
 
+    void ChangeTipPage();
+
     QMap<TipErr, QString> _tip_errs;
     QMap<ReqId, std::function<void(const QJsonObject&)>> _handlers;
 
+    QTimer * _countdown_timer;
+    int _countdown;
+
+signals:
+    void sigSwitchLogin();
 };
 
 #endif // REGISTERDIALOG_H
