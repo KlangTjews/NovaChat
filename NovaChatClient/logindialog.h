@@ -1,4 +1,4 @@
-#ifndef LOGINDIALOG_H
+    #ifndef LOGINDIALOG_H
 #define LOGINDIALOG_H
 
 #include <QDialog>
@@ -17,9 +17,11 @@ public:
 
 private:
     Ui::LoginDialog *ui;
+    void slot_forget_pwd();
 
 signals:
     void switchRegister();
+    void switchReset();
 };
 
 #endif // LOGINDIALOG_H

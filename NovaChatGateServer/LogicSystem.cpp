@@ -166,77 +166,77 @@ LogicSystem::LogicSystem() {
 		return true;
 	});
 
-	////重置回调逻辑 1
-	//RegPost("/reset_pwd", [](std::shared_ptr<HttpConnection> connection) {
-	//	auto body_str = boost::beast::buffers_to_string(connection->_request.body().data());
-	//	std::cout << "receive body is " << body_str << std::endl;
-	//	connection->_response.set(http::field::content_type, "text/json");
+	//重置回调逻辑
+	RegPost("/reset_pwd", [](std::shared_ptr<HttpConnection> connection) {
+		auto body_str = boost::beast::buffers_to_string(connection->_request.body().data());
+		std::cout << "receive body is " << body_str << std::endl;
+		connection->_response.set(http::field::content_type, "text/json");
 
-	//	nlohmann::json root;
-	//	nlohmann::json src_root;
-	//	try {
-	//		src_root = nlohmann::json::parse(body_str);
-	//	}
-	//	catch (const nlohmann::json::parse_error& e) {
-	//		std::cout << "Failed to parse JSON data: " << e.what() << std::endl;
-	//		root["error"] = ErrorCodes::Error_Json;
-	//		std::string jsonstr = root.dump(); // 序列化 JSON
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
+		nlohmann::json root;
+		nlohmann::json src_root;
+		try {
+			src_root = nlohmann::json::parse(body_str);
+		}
+		catch (const nlohmann::json::parse_error& e) {
+			std::cout << "Failed to parse JSON data: " << e.what() << std::endl;
+			root["error"] = ErrorCodes::Error_Json;
+			std::string jsonstr = root.dump(); // 序列化 JSON
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
 
-	//	auto email = src_root["email"];
-	//	auto name = src_root["user"];
-	//	auto pwd = src_root["passwd"];
+		auto email = src_root["email"].get<std::string>();
+		auto name = src_root["user"].get<std::string>();
+		auto pwd = src_root["password"].get<std::string>();
 
-	//	//先查找redis中email对应的验证码是否合理
-	//	std::string  varify_code;
-	//	bool b_get_varify = RedisMgr::GetInstance()->Get(CODEPREFIX + src_root["email"], varify_code);
-	//	if (!b_get_varify) {
-	//		std::cout << " get varify code expired" << std::endl;
-	//		root["error"] = ErrorCodes::VarifyExpired;
-	//		std::string jsonstr = root.dump();
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
+		//先查找redis中email对应的验证码是否合理
+		std::string verify_code;
+		bool b_get_verify = RedisMgr::GetInstance()->Get(CODEPREFIX + src_root["email"].get<std::string>(), verify_code);
+		if (!b_get_verify) {
+			std::cout << " get verify code expired" << std::endl;
+			root["error"] = ErrorCodes::VerifyExpired;
+			std::string jsonstr = root.dump();
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
 
-	//	if (varify_code != src_root["varifycode"]) {
-	//		std::cout << " varify code error" << std::endl;
-	//		root["error"] = ErrorCodes::VarifyCodeErr;
-	//		std::string jsonstr = root.dump();
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
-	//	//查询数据库判断用户名和邮箱是否匹配
-	//	bool email_valid = SQLMgr::GetInstance()->CheckEmail(name, email);
-	//	if (!email_valid) {
-	//		std::cout << " user email not match" << std::endl;
-	//		root["error"] = ErrorCodes::EmailNotMatch;
-	//		std::string jsonstr = root.dump();
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
+		if (verify_code != src_root["verifycode"].get<std::string>()) {
+			std::cout << " verify code error" << std::endl;
+			root["error"] = ErrorCodes::VerifyCodeErr;
+			std::string jsonstr = root.dump();
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
+		//查询数据库判断用户名和邮箱是否匹配
+		bool email_valid = SQLMgr::GetInstance()->CheckEmail(name, email);
+		if (!email_valid) {
+			std::cout << " user email not match" << std::endl;
+			root["error"] = ErrorCodes::EmailNotMatch;
+			std::string jsonstr = root.dump();
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
 
-	//	//更新密码为最新密码
-	//	bool b_up = SQLMgr::GetInstance()->UpdatePwd(name, pwd);
-	//	if (!b_up) {
-	//		std::cout << " update pwd failed" << std::endl;
-	//		root["error"] = ErrorCodes::PasswdUpFailed;
-	//		std::string jsonstr = root.dump();
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
+		//更新密码为最新密码
+		bool b_up = SQLMgr::GetInstance()->UpdatePwd(name, pwd);
+		if (!b_up) {
+			std::cout << " update pwd failed" << std::endl;
+			root["error"] = ErrorCodes::PasswdUpFailed;
+			std::string jsonstr = root.dump();
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
 
-	//	std::cout << "succeed to update password" << pwd << std::endl;
-	//	root["error"] = 0;
-	//	root["email"] = email;
-	//	root["user"] = name;
-	//	root["passwd"] = pwd;
-	//	root["varifycode"] = src_root["varifycode"];
-	//	std::string jsonstr = root.dump();
-	//	beast::ostream(connection->_response.body()) << jsonstr;
-	//	return true;
-	//	});
+		std::cout << "succeed to update password" << pwd << std::endl;
+		root["error"] = 0;
+		root["email"] = email;
+		root["user"] = name;
+		root["password"] = pwd;
+		root["verifycode"] = src_root["verifycode"].get<std::string>();
+		std::string jsonstr = root.dump();
+		beast::ostream(connection->_response.body()) << jsonstr;
+		return true;
+	});
 
 	////用户登录逻辑
 	//RegPost("/user_login", [](std::shared_ptr<HttpConnection> connection) {

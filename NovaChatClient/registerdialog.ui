@@ -31,7 +31,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page">
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -82,13 +82,13 @@
             <widget class="QLabel" name="user_label">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>48</width>
                <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
+               <width>48</width>
                <height>25</height>
               </size>
              </property>
@@ -96,22 +96,6 @@
               <string>用户</string>
              </property>
             </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Policy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>24</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item>
             <widget class="QLineEdit" name="user_edit">
@@ -165,13 +149,13 @@
             <widget class="QLabel" name="email_label">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>48</width>
                <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
+               <width>48</width>
                <height>25</height>
               </size>
              </property>
@@ -179,22 +163,6 @@
               <string>邮箱</string>
              </property>
             </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Policy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>24</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item>
             <widget class="QLineEdit" name="email_edit">
@@ -248,13 +216,13 @@
             <widget class="QLabel" name="pass_label">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>48</width>
                <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
+               <width>48</width>
                <height>25</height>
               </size>
              </property>
@@ -262,22 +230,6 @@
               <string>密码</string>
              </property>
             </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Policy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>24</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item>
             <widget class="QLineEdit" name="pass_edit">
@@ -334,13 +286,13 @@
             <widget class="QLabel" name="confirm_label">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>48</width>
                <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
+               <width>48</width>
                <height>25</height>
               </size>
              </property>
@@ -417,13 +369,13 @@
             <widget class="QLabel" name="verify_label">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>45</width>
                <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
+               <width>45</width>
                <height>25</height>
               </size>
              </property>
@@ -663,7 +615,7 @@
   <customwidget>
    <class>TimerBtn</class>
    <extends>QPushButton</extends>
-   <header>timerbtn.h</header>
+   <header location="global">timerbtn.h</header>
   </customwidget>
   <customwidget>
    <class>ClickedLabel</class>
