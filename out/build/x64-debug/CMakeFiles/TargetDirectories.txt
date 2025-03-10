@@ -1,0 +1,5 @@
+D:/Work/NovaChat/out/build/x64-debug/CMakeFiles/edit_cache.dir
+D:/Work/NovaChat/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
+D:/Work/NovaChat/out/build/x64-debug/NovaChatGateServer/CMakeFiles/NovaChat.dir
+D:/Work/NovaChat/out/build/x64-debug/NovaChatGateServer/CMakeFiles/edit_cache.dir
+D:/Work/NovaChat/out/build/x64-debug/NovaChatGateServer/CMakeFiles/rebuild_cache.dir
