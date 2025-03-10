@@ -1,5 +1,8 @@
 #include "SQLMgr.h"
 
+SQLMgr::SQLMgr() {
+}
+
 SQLMgr::~SQLMgr() {
 
 }
@@ -15,9 +18,6 @@ bool SQLMgr::CheckEmail(const std::string& name, const std::string& email) {
 
 bool SQLMgr::UpdatePwd(const std::string& name, const std::string& pwd) {
 	return _psql.UpdatePwd(name, pwd);
-}
-
-SQLMgr::SQLMgr() {
 }
 
 bool SQLMgr::CheckPwd(const std::string& email, const std::string& pwd, UserInfo& userInfo) {
