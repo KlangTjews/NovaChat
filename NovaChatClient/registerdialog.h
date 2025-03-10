@@ -27,10 +27,14 @@ private:
     bool checkEmailValid();
     bool checkPassValid();
     bool checkVerifyValid();
+    bool checkConfirmValid();
+    void AddTipErr(TipErr te,QString tips);
+    void DelTipErr(TipErr te);
     Ui::RegisterDialog *ui;
     void showTip(QString str, bool b_ok);
     void initHttpHandlers();
 
+    QMap<TipErr, QString> _tip_errs;
     QMap<ReqId, std::function<void(const QJsonObject&)>> _handlers;
 
 };
