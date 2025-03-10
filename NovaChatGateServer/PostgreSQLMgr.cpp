@@ -112,8 +112,47 @@ bool PostgreSQLMgr::UpdatePwd(const std::string& name, const std::string& newpwd
 	}
 }
 
-bool PostgreSQLMgr::CheckPwd(const std::string& name, const std::string& pwd, UserInfo& userInfo) {
-	return 1;
+bool PostgreSQLMgr::CheckPwd(const std::string& email, const std::string& pwd, UserInfo& userInfo) {
+	auto con = pool_->getConnection();
+	if (con == nullptr) {
+		return false;
+	}
+
+	Defer defer([this, &con]() {
+		pool_->returnConnection(std::move(con));
+	});
+
+	try {
+		pqxx::work tx{ *(con->_con) };
+		std::string query = "SELECT * FROM \"user\" WHERE user_email = $1";
+		pqxx::result res = tx.exec_params(query, email);
+		tx.commit();
+
+		if (res.empty()) {
+			std::cout << "查询到密码为空" << std::endl;
+			return false; // 没有找到匹配的用户
+		}
+
+		std::string origin_pwd = res[0]["user_password"].as<std::string>();
+		if (pwd != origin_pwd) {
+			return false; // 密码不匹配
+		}
+
+		std::cout << "查询到密码: " << origin_pwd << std::endl;
+
+		// 填充用户信息
+		userInfo.uid = res[0]["uid"].as<int>();
+		userInfo.name = res[0]["user_name"].as<std::string>();
+		userInfo.email = res[0]["user_email"].as<std::string>();
+		userInfo.pwd = origin_pwd;
+
+		return true;
+	}
+	catch (const pqxx::sql_error& e) {
+		std::cerr << "CheckPwd SQLException: " << e.what();
+		std::cerr << " (PostgreSQL SQLState: " << e.sqlstate() << ")" << std::endl;
+		return -1;
+	}
 }
 
 bool PostgreSQLMgr::TestProcedure(const std::string& email, int& uid, std::string& name) {
