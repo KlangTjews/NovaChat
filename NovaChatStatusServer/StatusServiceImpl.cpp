@@ -18,6 +18,7 @@ Status StatusServiceImpl::GetChatServer(ServerContext* context, const GetChatSer
 {
 	std::string prefix("Nova status server has received : ");
 	const auto& server = getChatServer();
+	//设置好后grpc底层会直接返回
 	reply->set_host(server.host);
 	reply->set_port(server.port);
 	reply->set_error(ErrorCodes::Success);
@@ -68,7 +69,6 @@ ChatServer StatusServiceImpl::getChatServer() {
 
 	// 使用范围基于for循环
 	for (auto& server : _servers) {
-
 		if (server.second.name == minServer.name) {
 			continue;
 		}
