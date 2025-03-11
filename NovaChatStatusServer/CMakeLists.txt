@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.28)
 project(NovaChatStatusServer)
 
 aux_source_directory(${STATUS_PATH} SRC)
-include_directories(${HEAD_PATH})
 
 add_executable(${APP2} ${SRC})
 
