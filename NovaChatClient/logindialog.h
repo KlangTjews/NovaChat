@@ -39,6 +39,8 @@ private slots:
     void slot_login_failed(int err);
     void slot_tcp_con_finish(bool bsuccess);
 
+    void on_forget_label_linkActivated(const QString &link);
+
 signals:
     void switchRegister();
     void switchReset();

@@ -12,6 +12,7 @@ LoginDialog::LoginDialog(QWidget *parent) : QDialog(parent) , ui(new Ui::LoginDi
     ui->setupUi(this);
     connect(ui->reg_btn, &QPushButton::clicked, this, &LoginDialog::switchRegister);
     ui->forget_label->SetState("normal","hover","","selected","selected_hover","");
+    ui->forget_label->setCursor(Qt::PointingHandCursor);
     connect(ui->forget_label, &ClickedLabel::clicked, this, &LoginDialog::slot_forget_pwd);
     initHttpHandlers();
     //连接登录回包信号
@@ -243,5 +244,4 @@ void LoginDialog::slot_tcp_con_finish(bool bsuccess)
         showTip(tr("网络异常"),false);
         enableBtn(true);
     }
-
 }
