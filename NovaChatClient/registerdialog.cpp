@@ -255,16 +255,16 @@ bool RegisterDialog::checkPassValid()
     auto pass = ui->pass_edit->text();
     auto confirm = ui->confirm_edit->text();
 
-    if(pass.length() < 6 || pass.length()>20){
+    if(pass.length() < 6 || pass.length()>24){
         //提示长度不准确
-        AddTipErr(TipErr::TIP_PWD_ERR, tr("密码长度应为6~20"));
+        AddTipErr(TipErr::TIP_PWD_ERR, tr("密码长度应为6~24"));
         return false;
     }
 
     // 创建一个正则表达式对象，按照上述密码要求
     // 这个正则表达式解释：
-    // ^[a-zA-Z0-9!@#$%^&*]{6,20}$ 密码长度至少6，可以是字母、数字和特定的特殊字符
-    QRegularExpression regExp("^[a-zA-Z0-9!@#$%^&*.]{6,20}$");
+    // ^[a-zA-Z0-9!@#$%^&*]{6,24}$ 密码长度至少6，可以是字母、数字和特定的特殊字符
+    QRegularExpression regExp("^[a-zA-Z0-9!@#$%^&*.]{6,24}$");
     if(!regExp.match(pass).hasMatch()){
         //提示字符非法
         AddTipErr(TipErr::TIP_PWD_ERR, tr("不能包含非法字符"));

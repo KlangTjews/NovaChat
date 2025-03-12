@@ -130,20 +130,20 @@ bool LoginDialog::checkUserValid(){
 
 bool LoginDialog::checkPwdValid(){
     auto pwd = ui->pass_edit->text();
-    if(pwd.length() < 6 || pwd.length() > 20){
+    if(pwd.length() < 6 || pwd.length() > 24){
         qDebug() << "Pass length invalid";
         //提示长度不准确
-        AddTipErr(TipErr::TIP_PWD_ERR, tr("密码长度应为6~20"));
+        AddTipErr(TipErr::TIP_PWD_ERR, tr("密码长度应为6~24"));
         return false;
     }
 
     // 创建一个正则表达式对象，按照上述密码要求
     // 这个正则表达式解释：
-    // ^[a-zA-Z0-9!@#$%^&*]{6,20}$ 密码长度至少6，可以是字母、数字和特定的特殊字符
-    QRegularExpression regExp("^[a-zA-Z0-9!@#$%^&*.]{6,20}$");
+    // ^[a-zA-Z0-9!@#$%^&*]{6,24}$ 密码长度至少6，可以是字母、数字和特定的特殊字符
+    QRegularExpression regExp("^[a-zA-Z0-9!@#$%^&*.]{6,24}$");
     if(!regExp.match(pwd).hasMatch()){
         //提示字符非法
-        AddTipErr(TipErr::TIP_PWD_ERR, tr("不能包含非法字符且长度为(6~20)"));
+        AddTipErr(TipErr::TIP_PWD_ERR, tr("不能包含非法字符且长度为(6~24)"));
         return false;;
     }
 
