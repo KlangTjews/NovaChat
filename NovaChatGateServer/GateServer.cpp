@@ -120,7 +120,6 @@ int main() {
         std::string gate_port_str = gCfgmgr["GateServer"]["Port"];
         unsigned short gate_port = atoi(gate_port_str.c_str());
 
-
         net::io_context ioc{ 1 }; //上下文初始化和默认线程
         boost::asio::signal_set signals(ioc, SIGINT, SIGTERM); //注册操作系统信号
         signals.async_wait([&ioc](const boost::system::error_code& error, int signal_number){

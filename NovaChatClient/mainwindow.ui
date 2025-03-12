@@ -26,17 +26,6 @@
    <string>Nova Chat</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
-  <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>300</width>
-     <height>18</height>
-    </rect>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>

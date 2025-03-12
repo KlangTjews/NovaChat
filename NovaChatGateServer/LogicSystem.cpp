@@ -94,7 +94,7 @@ LogicSystem::LogicSystem() {
 		return true;
 	});
 
-	//day11 注册用户逻辑 1
+	//注册用户逻辑
 	RegPost("/user_register", [](std::shared_ptr<HttpConnection> connection) {
 		auto body_str = boost::beast::buffers_to_string(connection->_request.body().data());
 		std::cout << "receive body is " << body_str << std::endl;
