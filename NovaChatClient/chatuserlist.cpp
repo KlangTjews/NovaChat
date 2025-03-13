@@ -1,7 +1,7 @@
 #include "chatuserlist.h"
-#include<QScrollBar>
 #include "usermgr.h"
 #include <QTimer>
+#include <QScrollBar>
 #include <QCoreApplication>
 
 ChatUserList::ChatUserList(QWidget *parent):QListWidget(parent), _load_pending(false)

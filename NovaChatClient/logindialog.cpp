@@ -1,11 +1,11 @@
-#include <QDebug>
-#include <QRegularExpression>
-#include <QPainter>
-#include <QPainterPath>
 #include "logindialog.h"
 #include "ui_logindialog.h"
 #include "httpmgr.h"
 #include "tcpmgr.h"
+#include <QDebug>
+#include <QRegularExpression>
+#include <QPainter>
+#include <QPainterPath>
 
 LoginDialog::LoginDialog(QWidget *parent) : QDialog(parent) , ui(new Ui::LoginDialog)
 {

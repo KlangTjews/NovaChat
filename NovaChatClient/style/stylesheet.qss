@@ -263,7 +263,7 @@ LoadingDlg{
 }
 
 #chat_data_list{
-     background: black;
+     background: white;
 }
 
 #chat_bg{

@@ -20,8 +20,7 @@ public:
 protected:
     void paintEvent(QPaintEvent *event);
 private slots:
-    // void on_send_btn_clicked();
-
+    void on_send_btn_clicked();
     // void on_receive_btn_clicked();
 
 private:
@@ -30,7 +29,7 @@ private:
     std::shared_ptr<UserInfo> _user_info;
     QMap<QString, QWidget*>  _bubble_map;
 signals:
-    // void sig_append_send_chat_msg(std::shared_ptr<TextChatData> msg);
+    void sig_append_send_chat_msg(std::shared_ptr<TextChatData> msg);
 };
 
 #endif // CHATPAGE_H

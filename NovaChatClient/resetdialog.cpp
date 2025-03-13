@@ -1,9 +1,9 @@
 #include "resetdialog.h"
 #include "ui_resetdialog.h"
-#include <QDebug>
-#include <QRegularExpression>
 #include "global.h"
 #include "httpmgr.h"
+#include <QDebug>
+#include <QRegularExpression>
 
 ResetDialog::ResetDialog(QWidget *parent) :
     QDialog(parent),
