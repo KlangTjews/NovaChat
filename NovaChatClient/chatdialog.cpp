@@ -1,19 +1,19 @@
 #include "chatdialog.h"
 #include "ui_chatdialog.h"
+#include "chatuserlist.h"
 #include "chatuserwid.h"
-//#include "loadingdlg.h"
-#include "global.h"
+#include "loadingdlg.h"
 //#include "ChatItemBase.h"
 //#include "TextBubble.h"
 //#include "PictureBubble.h"
 //#include "MessageTextEdit.h"
-#include "chatuserlist.h"
 //#include "grouptipitem.h"
 //#include "invaliditem.h"
 //#include "conuseritem.h"
 //#include "lineitem.h"
 #include "tcpmgr.h"
 #include "usermgr.h"
+#include "global.h"
 #include <vector>
 #include <QRandomGenerator>
 #include <QAction>
@@ -59,7 +59,11 @@ ChatDialog::ChatDialog(QWidget *parent) : QDialog(parent), ui(new Ui::ChatDialog
 
     ui->search_edit->SetMaxLength(24);
 
+    //连接加载信号和槽
+    connect(ui->chat_user_list, &ChatUserList::sig_loading_chat_user, this, &ChatDialog::slot_loading_chat_user);
     addChatUserList();
+
+
     ShowSearch(false);
 
 }
@@ -138,4 +142,23 @@ void ChatDialog::addChatUserList()
         ui->chat_user_list->addItem(item);
         ui->chat_user_list->setItemWidget(item, chat_user_wid);
     }
+}
+
+void ChatDialog::slot_loading_chat_user()
+{
+    if(_b_loading){
+        return;
+    }
+
+    _b_loading = true;
+    LoadingDlg *loadingDialog = new LoadingDlg(this);
+    loadingDialog->setModal(true);
+    loadingDialog->show();
+    qDebug() << "add new data to list.....";
+    addChatUserList(); //临时
+    //loadMoreChatUser();
+    // 加载完成后关闭对话框
+    loadingDialog->deleteLater();
+
+    _b_loading = false;
 }

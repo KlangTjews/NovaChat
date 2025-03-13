@@ -42,6 +42,9 @@ private:
     QMap<int, QListWidgetItem*> _chat_items_added;
     int _cur_chat_uid;
 
+public slots:
+    void slot_loading_chat_user();
+
 };
 
 #endif // CHATDIALOG_H
