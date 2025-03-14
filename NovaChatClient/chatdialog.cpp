@@ -62,9 +62,87 @@ ChatDialog::ChatDialog(QWidget *parent) : QDialog(parent), ui(new Ui::ChatDialog
     //连接加载信号和槽
     connect(ui->chat_user_list, &ChatUserList::sig_loading_chat_user, this, &ChatDialog::slot_loading_chat_user);
     addChatUserList();
+    //模拟加载自己头像
+    // QString head_icon = UserMgr::GetInstance()->GetIcon();
+    // QPixmap pixmap(head_icon); // 加载图片
+    // QPixmap scaledPixmap = pixmap.scaled( ui->side_head_lb->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation); // 将图片缩放到label的大小
+    // ui->side_head_lb->setPixmap(scaledPixmap); // 将缩放后的图片设置到QLabel上
+    // ui->side_head_lb->setScaledContents(true); // 设置QLabel自动缩放图片内容以适应大小
 
+    ui->side_chat_lb->setProperty("state","normal");
+
+    ui->side_chat_lb->SetState("normal","hover","pressed","selected_normal","selected_hover","selected_pressed");
+
+    ui->side_contact_lb->SetState("normal","hover","pressed","selected_normal","selected_hover","selected_pressed");
+
+    AddLBGroup(ui->side_chat_lb);
+    AddLBGroup(ui->side_contact_lb);
+
+    connect(ui->side_chat_lb, &StateWidget::clicked, this, &ChatDialog::slot_side_chat);
+    connect(ui->side_contact_lb, &StateWidget::clicked, this, &ChatDialog::slot_side_contact);
+
+    //链接搜索框输入变化
+    connect(ui->search_edit, &QLineEdit::textChanged, this, &ChatDialog::slot_text_changed);
 
     ShowSearch(false);
+
+    // //检测鼠标点击位置判断是否要清空搜索框
+    // this->installEventFilter(this); // 安装事件过滤器
+
+    // //设置聊天label选中状态
+    // ui->side_chat_lb->SetSelected(true);
+    // //设置选中条目
+    // SetSelectChatItem();
+    // //更新聊天界面信息
+    // SetSelectChatPage();
+
+    // //连接加载联系人的信号和槽函数
+    // connect(ui->con_user_list, &ContactUserList::sig_loading_contact_user,
+    //         this, &ChatDialog::slot_loading_contact_user);
+
+    // //连接联系人页面点击好友申请条目的信号
+    // connect(ui->con_user_list, &ContactUserList::sig_switch_apply_friend_page,
+    //         this,&ChatDialog::slot_switch_apply_friend_page);
+
+    // //连接清除搜索框操作
+    // connect(ui->friend_apply_page, &ApplyFriendPage::sig_show_search, this, &ChatDialog::slot_show_search);
+
+    // //为searchlist 设置search edit
+    // ui->search_list->SetSearchEdit(ui->search_edit);
+
+    // //连接申请添加好友信号
+    // connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_friend_apply, this, &ChatDialog::slot_apply_friend);
+
+    // //连接认证添加好友信号
+    // connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_add_auth_friend, this, &ChatDialog::slot_add_auth_friend);
+
+    // //链接自己认证回复信号
+    // connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_auth_rsp, this,
+    //         &ChatDialog::slot_auth_rsp);
+
+    // //连接点击联系人item发出的信号和用户信息展示槽函数
+    // connect(ui->con_user_list, &ContactUserList::sig_switch_friend_info_page,
+    //         this,&ChatDialog::slot_friend_info_page);
+
+    // //设置中心部件为chatpage
+    // ui->stackedWidget->setCurrentWidget(ui->chat_page);
+
+
+    // //连接searchlist跳转聊天信号
+    // connect(ui->search_list, &SearchList::sig_jump_chat_item, this, &ChatDialog::slot_jump_chat_item);
+
+    // //连接好友信息界面发送的点击事件
+    // connect(ui->friend_info_page, &FriendInfoPage::sig_jump_chat_item, this,
+    //         &ChatDialog::slot_jump_chat_item_from_infopage);
+
+    // //连接聊天列表点击信号
+    // connect(ui->chat_user_list, &QListWidget::itemClicked, this, &ChatDialog::slot_item_clicked);
+
+    // //连接对端消息通知
+    // connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_text_chat_msg,
+    //         this, &ChatDialog::slot_text_chat_msg);
+
+    // connect(ui->chat_page, &ChatPage::sig_append_send_chat_msg, this, &ChatDialog::slot_append_send_chat_msg);
 
 }
 
@@ -161,4 +239,52 @@ void ChatDialog::slot_loading_chat_user()
     loadingDialog->deleteLater();
 
     _b_loading = false;
+}
+
+void ChatDialog::AddLBGroup(StateWidget* lb)
+{
+    _lb_list.push_back(lb);
+}
+
+void ChatDialog::ClearLabelState(StateWidget *lb)
+{
+    for(auto & ele: _lb_list){
+        if(ele == lb){
+            continue;
+        }
+
+        ele->ClearState();
+    }
+}
+
+void ChatDialog::slot_side_chat()
+{
+    qDebug()<< "receive side chat clicked";
+    ClearLabelState(ui->side_chat_lb);
+    ui->stackedWidget->setCurrentWidget(ui->chat_page);
+    _state = ChatUIMode::ChatMode;
+    ShowSearch(false);
+}
+
+void ChatDialog::slot_side_contact(){
+    qDebug()<< "receive side contact clicked";
+    ClearLabelState(ui->side_contact_lb);
+    //设置
+    if(_last_widget == nullptr){
+        ui->stackedWidget->setCurrentWidget(ui->friend_apply_page);
+        _last_widget = ui->friend_apply_page;
+    }else{
+        ui->stackedWidget->setCurrentWidget(_last_widget);
+    }
+
+    _state = ChatUIMode::ContactMode;
+    ShowSearch(false);
+}
+
+void ChatDialog::slot_text_changed(const QString &str)
+{
+    //qDebug()<< "receive slot text changed str is " << str;
+    if (!str.isEmpty()) {
+        ShowSearch(true);
+    }
 }

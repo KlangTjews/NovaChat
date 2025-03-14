@@ -1,4 +1,4 @@
-    #ifndef LOGINDIALOG_H
+#ifndef LOGINDIALOG_H
 #define LOGINDIALOG_H
 
 #include "global.h"
@@ -38,8 +38,6 @@ private slots:
     void slot_login_mod_finish(ReqId id, QString res, ErrorCodes err);
     void slot_login_failed(int err);
     void slot_tcp_con_finish(bool bsuccess);
-
-    void on_forget_label_linkActivated(const QString &link);
 
 signals:
     void switchRegister();

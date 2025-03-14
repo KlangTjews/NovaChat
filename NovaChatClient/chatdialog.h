@@ -8,7 +8,7 @@
 #include <memory>
 //#include "statelabel.h"
 #include "global.h"
-//#include "statewidget.h"
+#include "statewidget.h"
 #include "userdata.h"
 
 namespace Ui {
@@ -29,11 +29,14 @@ protected:
 
 private:
     void addChatUserList();
+    void AddLBGroup(StateWidget* lb);
+    void ClearLabelState(StateWidget* lb);
 
     void ShowSearch(bool bsearch = false);
 
     Ui::ChatDialog *ui;
     bool _b_loading;
+    QList<StateWidget*> _lb_list;
 
     ChatUIMode _mode;
     ChatUIMode _state;
@@ -44,6 +47,9 @@ private:
 
 public slots:
     void slot_loading_chat_user();
+    void slot_side_chat();
+    void slot_side_contact();
+    void slot_text_changed(const QString & str);
 
 };
 
