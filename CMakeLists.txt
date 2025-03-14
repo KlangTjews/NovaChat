@@ -8,7 +8,6 @@ endif()
 
 project ("NovaChat")
 
-set(HEAD_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(GATE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/NovaChatGateServer)
 set(STATUS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/NovaChatStatusServer)
 set(SERVER_PATH ${CMAKE_CURRENT_SOURCE_DIR}/NovaChatServer)

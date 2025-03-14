@@ -3,7 +3,6 @@
 project(NovaChatGateServer)
 
 aux_source_directory(${GATE_PATH} SRC)
-include_directories(${HEAD_PATH})
 
 add_executable(${APP1} ${SRC})
 
