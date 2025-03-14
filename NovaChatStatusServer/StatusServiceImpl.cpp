@@ -1,8 +1,8 @@
-#include <climits>
 #include "StatusServiceImpl.h"
 #include "ConfigMgr.h"
 #include "RedisMgr.h"
 #include "const.h"
+#include <climits>
 
 std::string generate_unique_string() {
 	// 创建UUID对象

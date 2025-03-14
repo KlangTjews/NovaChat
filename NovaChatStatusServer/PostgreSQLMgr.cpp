@@ -47,10 +47,6 @@ int PostgreSQLMgr::RegUser(const std::string& name, const std::string& email, co
 	}
 }
 
-int PostgreSQLMgr::RegUserTransaction(const std::string& name, const std::string& email, const std::string& pwd, const std::string& icon) {
-	return 1;
-}
-
 bool PostgreSQLMgr::CheckEmail(const std::string& name, const std::string& email) {
 	auto con = pool_->getConnection();
 	try {
@@ -153,8 +149,4 @@ bool PostgreSQLMgr::CheckPwd(const std::string& email, const std::string& pwd, U
 		std::cerr << " (PostgreSQL SQLState: " << e.sqlstate() << ")" << std::endl;
 		return -1;
 	}
-}
-
-bool PostgreSQLMgr::TestProcedure(const std::string& email, int& uid, std::string& name) {
-	return 1;
 }
