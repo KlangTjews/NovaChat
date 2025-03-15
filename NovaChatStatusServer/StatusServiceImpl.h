@@ -14,7 +14,7 @@ using message::LoginReq;
 using message::LoginRsp;
 using message::StatusService;
 
-class  ChatServer {
+class ChatServer {
 public:
 	ChatServer() :host(""), port(""), name(""), con_count(0) {}
 	ChatServer(const ChatServer& cs) :host(cs.host), port(cs.port), name(cs.name), con_count(cs.con_count) {}
@@ -34,6 +34,7 @@ public:
 	std::string name;
 	int con_count;
 };
+
 class StatusServiceImpl final : public StatusService::Service
 {
 public:

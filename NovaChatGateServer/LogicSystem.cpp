@@ -15,46 +15,46 @@ LogicSystem::LogicSystem() {
 		}
 	});
 
-	//RegPost("/test_procedure", [](std::shared_ptr<HttpConnection> connection) {
-	//	auto body_str = boost::beast::buffers_to_string(connection->_request.body().data());
-	//	std::cout << "receive body is " << body_str << std::endl;
-	//	connection->_response.set(http::field::content_type, "text/json");
-	//	nlohmann::json root;
-	//	nlohmann::json src_root;
+	RegPost("/test_procedure", [](std::shared_ptr<HttpConnection> connection) {
+		auto body_str = boost::beast::buffers_to_string(connection->_request.body().data());
+		std::cout << "receive body is " << body_str << std::endl;
+		connection->_response.set(http::field::content_type, "text/json");
+		nlohmann::json root;
+		nlohmann::json src_root;
 
-	//	// 解析 JSON
-	//	try {
-	//		src_root = nlohmann::json::parse(body_str);
-	//	}
-	//	catch (const nlohmann::json::parse_error& e) {
-	//		std::cout << "Failed to parse JSON data: " << e.what() << std::endl;
-	//		root["error"] = ErrorCodes::Error_Json;
-	//		std::string jsonstr = root.dump(); // 序列化 JSON
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
+		// 解析 JSON
+		try {
+			src_root = nlohmann::json::parse(body_str);
+		}
+		catch (const nlohmann::json::parse_error& e) {
+			std::cout << "Failed to parse JSON data: " << e.what() << std::endl;
+			root["error"] = ErrorCodes::Error_Json;
+			std::string jsonstr = root.dump(); // 序列化 JSON
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
 
-	//	if (!src_root.contains("email") || !src_root["email"].is_string()) {
-	//		std::cout << "Failed to parse JSON data!" << std::endl;
-	//		root["error"] = ErrorCodes::Error_Json;
-	//		std::string jsonstr = root.dump();
-	//		beast::ostream(connection->_response.body()) << jsonstr;
-	//		return true;
-	//	}
+		if (!src_root.contains("email") || !src_root["email"].is_string()) {
+			std::cout << "Failed to parse JSON data!" << std::endl;
+			root["error"] = ErrorCodes::Error_Json;
+			std::string jsonstr = root.dump();
+			beast::ostream(connection->_response.body()) << jsonstr;
+			return true;
+		}
 
-	//	auto email = src_root["email"];
-	//	int uid = 0;
-	//	std::string name = "";
-	//	SQLMgr::GetInstance()->TestProcedure(email, uid, name);
-	//	std::cout << "email is " << email << std::endl;
-	//	root["error"] = ErrorCodes::Success;
-	//	root["email"] = src_root["email"];
-	//	root["name"] = name;
-	//	root["uid"] = uid;
-	//	std::string jsonstr = root.dump();
-	//	beast::ostream(connection->_response.body()) << jsonstr;
-	//	return true;
-	//});
+		auto email = src_root["email"].get<std::string>();
+		int uid = 0;
+		std::string name = "";
+		SQLMgr::GetInstance()->TestProcedure(email, uid, name);
+		std::cout << "email is " << email << std::endl;
+		root["error"] = ErrorCodes::Success;
+		root["email"] = email;
+		root["name"] = name;
+		root["uid"] = uid;
+		std::string jsonstr = root.dump();
+		beast::ostream(connection->_response.body()) << jsonstr;
+		return true;
+	});
 
 	RegPost("/get_verifycode", [](std::shared_ptr<HttpConnection> connection) {
 		auto body_str = boost::beast::buffers_to_string(connection->_request.body().data());
